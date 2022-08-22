@@ -1,0 +1,4 @@
+Miguelito = 18
+Martin = 5
+Pedro = 9
+Juan = 20
