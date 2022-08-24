@@ -1,2 +1,97 @@
-Martin, 9 ptos, 5 monstruos
-Jose, 10 ptos, 8 monstruos
+Martin, 9 ptos, tablero
+Jose, 10 ptos, tablero
+
+def contador_de_bestias(tablero, ancho_total, largo_total):
+
+    for i in range(ancho_total):
+        if i == 0:
+            for j in range(largo_total):
+                if j == 0:                     #esquina superior izq tablero
+                    if tablero[i][j] == "N":
+                        e_s_i_d = int(tablero[i][j+1]) + 1
+                        tablero[i][j+1] = e_s_i_d
+
+                        e_s_i_a = int(tablero[i+1][j]) + 1
+                        tablero[i+1][j] = e_s_i_a
+
+                        e_s_i_ad = int(tablero[i+1][j+1]) + 1
+                        tablero[i+1][j+1] = e_s_i_ad
+                
+                elif j == (largo_total-1):  #esquina superior der tablero
+                    if tablero[i][j] == "N":
+                        e_s_d_i = int(tablero[i][j-1]) + 1
+                        tablero[i][j-1] = e_s_d_i
+
+                        e_s_d_a = int(tablero[i+1][j]) + 1
+                        tablero[i+1][j] = e_s_d_a
+                        
+                        e_s_d_ai = int(tablero[i+1][j-1]) + 1
+                        tablero[i+1][j-1] = e_s_d_ai
+
+                else:                          # otro punto primera fila
+                    if tablero[i][j] == "N":
+                        s_i = int(tablero[i][j-1]) + 1
+                        tablero[i][j-1] = s_i
+
+                        s_d = int(tablero[i][j+1]) + 1
+                        tablero[i][j+1] = s_d
+
+                        s_a = int(tablero[i+1][j]) + 1
+                        tablero[i+1][j] = s_a
+
+                        s_ai = int(tablero[i+1][j-1]) + 1
+                        tablero[i+1][j-1] = s_ai
+
+                        s_ad = int(tablero[i+1][j+1]) + 1
+                        tablero[i+1][j+1] = s_ad
+
+
+        elif i == (ancho_total-1):
+            for j in range(largo_total):
+                if j == 0:                     #esquina inferior izq tablero
+                    if tablero[i][j] == "N":
+                        tablero[i-1][j] += 1
+                        tablero[i-1][j+1] += 1
+                        tablero[i][j+1] += 1
+                
+                elif j == len(largo_total-1):  #esquina inferior der tablero
+                    if tablero[i][j] == "N":
+                        tablero[i][j-1] += 1
+                        tablero[i-1][j] += 1
+                        tablero[i-1][j-1] += 1
+                else:                          # otro punto ultima fila
+                    if tablero[i][j] == "N":
+                        tablero[i][j-1] += 1
+                        tablero[i][j+1] += 1
+                        tablero[i-1][j] += 1
+                        tablero[i-1][j-1] += 1
+                        tablero[i-1][j+1] += 1
+        
+        else:
+            if tablero[i][0] == "N":
+                tablero[i-1][j] += 1
+                tablero[i+1][j] += 1
+                tablero[i][j+1] += 1
+                tablero[i-1][j+1] += 1
+                tablero[i+1][j+1] += 1
+
+            elif tablero[i][largo_total] == "N":
+                tablero[i-1][j] += 1
+                tablero[i+1][j] += 1
+                tablero[i][j-11] += 1
+                tablero[i-1][j-1] += 1
+                tablero[i+1][j-1] += 1
+            
+            elif tablero[i][j] == "N":
+                tablero[i][j-1] += 1
+                tablero[i][j+1] += 1
+
+                tablero[i-1][j] += 1
+                tablero[i+1][j] += 1
+
+                tablero[i-1][j-1] += 1
+                tablero[i-1][j+1] += 1
+
+                tablero[i+1][j-1] += 1
+                tablero[i+1][j+1] += 1
+    return tablero

@@ -1,41 +1,10 @@
 from re import S
+from typing import Counter
 import parametros
 import tablero
 import random
-
-def contador_de_bestias(tablero, ancho, largo, ancho_total, largo_total):
-    b = 0
-    if tablero[ancho][largo] == "-":
-        if ancho >= 1:
-            if tablero[ancho-1][largo] == "N":
-                b += 1
-        elif ancho < ancho_total:
-            if tablero[ancho+1][largo] == "N":
-                b += 1
-        elif largo >= 1:
-            if tablero[ancho][largo-1] == "N":
-                b += 1
-        elif largo < largo_total:
-            if tablero[ancho][largo+1] == "N":
-                b += 1
-        elif ancho >= 1 and largo >= 1:
-            if tablero[ancho-1][largo-1] == "N":
-                 b += 1
-        elif ancho >= 1 and largo < largo_total:
-            if tablero[ancho-1][largo+1] == "N":
-                b += 1
-        elif ancho < ancho_total and largo >= 1:
-            if tablero[ancho+1][largo-1] == "N":
-                b += 1
-        elif ancho < ancho_total and largo < largo_total:
-            if tablero[ancho+1][largo+1] == "N":
-                b += 1
-        else:
-            b += 0
-    else:
-        tablero = tablero
-    tablero[ancho][largo] = b
-    return tablero
+from math import ceil
+import eleccion_posicion
 
 #puntaje_jugador = cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT
 
@@ -46,8 +15,21 @@ print("""Seleccione una opcion:
 [3] Ver ranking
 [0] Salir""")
 
-tablero = []
+tablero_juego_jugador = []
+tablero_juego_admin = []
 eleccion_inicio = int(input("Indique su opcion (0, 1, 2 o 3): "))
+
+while eleccion_inicio > 3:
+    print("Opcion no valida, por favor ingresar un numero valido")
+    print("""Seleccione una opcion:
+[1] Crear partida
+[2] Cargar partida
+[3] Ver ranking
+[0] Salir""")
+    eleccion_inicio = int(input("Indique su opcion (0, 1, 2 o 3): "))
+    if eleccion_inicio == 0 or eleccion_inicio == 1 or eleccion_inicio == 2 or eleccion_inicio == 3:
+        break
+
 if eleccion_inicio == 1:
     print("""Antes de comenzar el juego, debemos armar el tablero,
 dime las medidas con las que deseas jugar: """)
@@ -58,24 +40,56 @@ dime las medidas con las que deseas jugar: """)
         largo_tablero = int(input("largo (debe ser un numero entre 3 y 15): "))
         ancho_tablero = int(input("ancho (debe ser un numero entre 3 y 15): "))
 
+        
     for a in range(ancho_tablero):
-        tablero.append([])
-    for tabla in tablero:
+        tablero_juego_jugador.append([])
+        tablero_juego_admin.append([])
+    for tabla in tablero_juego_jugador:
         for l in range(largo_tablero):
-            tabla.append("-")
-    
-    cantidad_de_bestias = int((float(largo_tablero) * float(ancho_tablero) * parametros.PROB_BESTIA)//1)
+            tabla.append(" ")
+    for tabla in tablero_juego_admin:
+        for l in range(largo_tablero):
+            tabla.append(0)
+
+    cantidad_de_bestias = ceil(largo_tablero * ancho_tablero * float(parametros.PROB_BESTIA))
     for n in range(cantidad_de_bestias):
-        tablero[random.randint(0,ancho_tablero-1)][random.randint(0,largo_tablero-1)] = "N"
-    for anchos in range(len(tablero)):
-        for largos in range(len(tablero[anchos])):
-            if tablero[anchos][largos] == "N":
-                tablero[anchos][largos] == "N"
-            elif tablero[anchos][largos] == "-":
-                tablero_final = contador_de_bestias(tablero, anchos, largos, ancho_tablero, largo_tablero)
+        tablero_juego_admin[random.randint(0,ancho_tablero-1)][random.randint(0,largo_tablero-1)] = "N"
+
+
+
+    tablero_juego_admin = eleccion_posicion.contador_de_bestias(tablero_juego_admin, ancho_tablero, largo_tablero)
+
+    tablero.print_tablero(tablero_juego_jugador)
+    print("""Seleccione una opcion:
+[1] Descubrir un sector
+[2] Guardar partida
+[3] Salir de la partida""")
+    menu_juego = int(input("Indique su opcion (1, 2 o 3): "))
+    while menu_juego > 3:
+        print("Opcion no valida, por favor ingresar un numero valido")
+        print("""Seleccione una opcion:
+[1] Descubrir un sector
+[2] Guardar partida
+[3] Salir de la partida""")
+        menu_juego = int(input("Indique su opcion (1, 2 o 3): "))
+        if menu_juego <= 3:
+            break    
+    while menu_juego <= 3:
+        tablero.print_tablero(tablero_juego_jugador)
+#        print("""Seleccione una opcion:
+#[1] Descubrir un sector
+#[2] Guardar partida
+#[3] Salir de la partida""")
+        if menu_juego == 1:
+            sector_fila = int(input("seleccione una fila: "))
+            sector_columna = input("seleccione una columna: ")
+            letra = eleccion_posicion.convertidor_columna_en_numero(sector_columna)
+            tablero_juego_jugador = eleccion_posicion.posicion(tablero_juego_jugador, tablero_juego_admin, sector_fila, letra)
+            if tablero_juego_jugador[sector_fila][letra] == "N":
+                tablero.print_tablero(tablero_juego_jugador)
+                print("Perdiste...")
+                break
                 
-
-
 
 elif eleccion_inicio == 2:
     print("Cargando partidas...")
@@ -110,5 +124,5 @@ elif eleccion_inicio == 0:
     print("Hasta la proxima...")
 
 
-for l in tablero:
-    print(l)
+#for l in tablero_juego:
+#    print(l)
