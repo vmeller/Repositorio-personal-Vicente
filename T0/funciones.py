@@ -1,6 +1,21 @@
+import random
+
 def posicion(tablero1, tablero2, fila, columna):
     tablero1[fila][columna] = tablero2[fila][columna]
     return tablero1
+
+def bestias_en_tablero(cantidad_bestias, tablero, ancho, largo):
+    c = 0
+    for i in range(cantidad_bestias):
+        if tablero[random.randint(0,ancho-1)][random.randint(0,largo-1)] == 0:
+            tablero[random.randint(0,ancho-1)][random.randint(0,largo-1)] = "N"
+            c += 1
+        else:
+            c += 0
+    if c < cantidad_bestias:
+        return bestias_en_tablero
+    else:
+        return tablero
 
 def convertidor_columna_en_numero(letra):
     numero = 0
@@ -52,6 +67,15 @@ def convertidor_columna_en_numero(letra):
     else:
         numero = "valor no valido"
         return numero
+################################################### Crearla
+def ordenar_puntajes(lista):
+    lista2 = []
+    for l in lista:
+        for j in lista:
+            if j[1] >= l[1]:
+                lista2.append(j)
+    return lista2
+        
 
 def contador_de_bestias(tablero, ancho_total, largo_total):
 
@@ -117,7 +141,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                 else:                          # otro punto primera fila
                     if tablero[i][j] == "N":
 
-                        if tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                        if tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                             s_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = s_i
                             s_d = int(tablero[i][j+1]) + 1
@@ -129,7 +154,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             s_ad = int(tablero[i+1][j+1]) + 1
                             tablero[i+1][j+1] = s_ad
 
-                        elif tablero[i][j-1] == "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                        elif tablero[i][j-1] == "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
 
                             s_d = int(tablero[i][j+1]) + 1
                             tablero[i][j+1] = s_d
@@ -140,7 +166,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             s_ad = int(tablero[i+1][j+1]) + 1
                             tablero[i+1][j+1] = s_ad
 
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] == "N" and tablero[i+1][j] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] == "N" and tablero[i+1][j] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                             s_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = s_i
                             s_a = int(tablero[i+1][j]) + 1
@@ -150,7 +177,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             s_ad = int(tablero[i+1][j+1]) + 1
                             tablero[i+1][j+1] = s_ad
 
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] == "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] == "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                             s_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = s_i
                             s_d = int(tablero[i][j+1]) + 1
@@ -160,7 +188,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             s_ad = int(tablero[i+1][j+1]) + 1
                             tablero[i+1][j+1] = s_ad
 
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and tablero[i+1][j-1] == "N" and tablero[i+1][j+1] != "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and \
+                            tablero[i+1][j-1] == "N" and tablero[i+1][j+1] != "N":
                             s_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = s_i
                             s_d = int(tablero[i][j+1]) + 1
@@ -170,7 +199,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             s_ad = int(tablero[i+1][j+1]) + 1
                             tablero[i+1][j+1] = s_ad
                         
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] == "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i+1][j] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] == "N":
                             s_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = s_i
                             s_d = int(tablero[i][j+1]) + 1
@@ -241,7 +271,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
 
                 else:                          # otro punto ultima fila
                     if tablero[i][j] == "N":
-                        if tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
+                        if tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                            tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
                             i_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = i_i
                             i_d = int(tablero[i][j+1]) + 1
@@ -253,7 +284,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             i_ad = int(tablero[i-1][j+1]) + 1
                             tablero[i-1][j+1] = i_ad
                         
-                        elif tablero[i][j-1] == "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
+                        elif tablero[i][j-1] == "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                            tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
                             i_d = int(tablero[i][j+1]) + 1
                             tablero[i][j+1] = i_d
                             i_a = int(tablero[i-1][j]) + 1
@@ -263,7 +295,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             i_ad = int(tablero[i-1][j+1]) + 1
                             tablero[i-1][j+1] = i_ad
                         
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] == "N" and tablero[i-1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] == "N" and tablero[i-1][j] != "N" and \
+                            tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
                             i_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = i_i
                             i_a = int(tablero[i-1][j]) + 1
@@ -273,7 +306,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             i_ad = int(tablero[i-1][j+1]) + 1
                             tablero[i-1][j+1] = i_ad
 
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] == "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] == "N" and \
+                            tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N":
                             i_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = i_i
                             i_d = int(tablero[i][j+1]) + 1
@@ -283,7 +317,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             i_ad = int(tablero[i-1][j+1]) + 1
                             tablero[i-1][j+1] = i_ad
                         
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i-1][j-1] == "N" and tablero[i-1][j+1] != "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                            tablero[i-1][j-1] == "N" and tablero[i-1][j+1] != "N":
                             i_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = i_i
                             i_d = int(tablero[i][j+1]) + 1
@@ -293,7 +328,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             i_ad = int(tablero[i-1][j+1]) + 1
                             tablero[i-1][j+1] = i_ad
                         
-                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] == "N":
+                        elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                            tablero[i-1][j-1] != "N" and tablero[i-1][j+1] == "N":
                             i_i = int(tablero[i][j-1]) + 1
                             tablero[i][j-1] = i_i
                             i_d = int(tablero[i][j+1]) + 1
@@ -304,8 +340,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                             tablero[i-1][j-1] = i_ai
         else:
             for j in range(largo_total-1):
-                if tablero[i][0] == "N":         #columna derecha
-                    if tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
+                if tablero[i][0] == "N":         #columna izquierda
+                    if tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and \
+                        tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
                         cd_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = cd_s
                         cd_i = int(tablero[i+1][j]) + 1
@@ -317,7 +354,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         cd_s_i = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] = cd_s_i
                     
-                    elif tablero[i-1][j] == "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i-1][j] == "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and \
+                        tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
                         cd_i = int(tablero[i+1][j]) + 1
                         tablero[i+1][j] = cd_i
                         cd_d = int(tablero[i][j+1]) + 1
@@ -327,7 +365,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         cd_s_i = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] = cd_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] == "N" and tablero[i][j+1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] == "N" and tablero[i][j+1] != "N" and \
+                        tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
                         cd_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = cd_s
                         cd_d = int(tablero[i][j+1]) + 1
@@ -337,7 +376,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         cd_s_i = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] = cd_s_i
                     
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] == "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] == "N" and \
+                        tablero[i-1][j+1] != "N" and tablero[i+1][j+1] != "N":
                         cd_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = cd_s
                         cd_i = int(tablero[i+1][j]) + 1
@@ -347,7 +387,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         cd_s_i = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] = cd_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j+1] == "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and \
+                        tablero[i-1][j+1] == "N" and tablero[i+1][j+1] != "N":
                         cd_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = cd_s
                         cd_i = int(tablero[i+1][j]) + 1
@@ -357,7 +398,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         cd_s_i = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] = cd_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j+1] == "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j+1] != "N" and \
+                        tablero[i-1][j+1] != "N" and tablero[i+1][j+1] == "N":
                         cd_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = cd_s
                         cd_i = int(tablero[i+1][j]) + 1
@@ -367,8 +409,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         cd_i_i = int(tablero[i-1][j+1]) + 1
                         tablero[i-1][j+1] = cd_i_i
                     
-                elif tablero[i][largo_total-1] == "N":     #columna izquierda
-                    if tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
+                elif tablero[i][largo_total-1] == "N":     #columna derecha
+                    if tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and \
+                        tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
                         ci_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = ci_s
                         ci_i = int(tablero[i+1][j]) + 1
@@ -380,7 +423,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         ci_s_i = int(tablero[i+1][j-1]) + 1
                         tablero[i+1][j-1] = ci_s_i
 
-                    elif tablero[i-1][j] == "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
+                    elif tablero[i-1][j] == "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and \
+                        tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
                         ci_i = int(tablero[i+1][j]) + 1
                         tablero[i+1][j] = ci_i
                         ci_d = int(tablero[i][j-1]) + 1
@@ -390,7 +434,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         ci_s_i = int(tablero[i+1][j-1]) + 1
                         tablero[i+1][j-1] = ci_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] == "N" and tablero[i][j-1] != "N" and tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] == "N" and tablero[i][j-1] != "N" and \
+                        tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
                         ci_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = ci_s
                         ci_d = int(tablero[i][j-1]) + 1
@@ -400,7 +445,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         ci_s_i = int(tablero[i+1][j-1]) + 1
                         tablero[i+1][j-1] = ci_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] == "N" and tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] == "N" and \
+                        tablero[i-1][j-1] != "N" and tablero[i+1][j-1] != "N":
                         ci_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = ci_s
                         ci_i = int(tablero[i+1][j]) + 1
@@ -410,7 +456,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         ci_s_i = int(tablero[i+1][j-1]) + 1
                         tablero[i+1][j-1] = ci_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and tablero[i-1][j-1] == "N" and tablero[i+1][j-1] != "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and \
+                        tablero[i-1][j-1] == "N" and tablero[i+1][j-1] != "N":
                         ci_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = ci_s
                         ci_i = int(tablero[i+1][j]) + 1
@@ -420,7 +467,8 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         ci_s_i = int(tablero[i+1][j-1]) + 1
                         tablero[i+1][j-1] = ci_s_i
 
-                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and tablero[i-1][j-1] != "N" and tablero[i+1][j-1] == "N":
+                    elif tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i][j-1] != "N" and \
+                        tablero[i-1][j-1] != "N" and tablero[i+1][j-1] == "N":
                         ci_s = int(tablero[i-1][j]) + 1
                         tablero[i-1][j] = ci_s
                         ci_i = int(tablero[i+1][j]) + 1
@@ -431,7 +479,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         tablero[i-1][j-1] = ci_i_i
     #################        
                 elif tablero[i][j] == "N":     # para todo
-                    if tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    if tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
@@ -449,7 +499,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] == "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] == "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         der = int(tablero[i][j+1]) + 1
                         tablero[i][j+1] = der
                         arr = int(tablero[i-1][j]) + 1
@@ -465,7 +517,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] == "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] == "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         arr = int(tablero[i-1][j]) + 1
@@ -481,7 +535,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] == "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] == "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
@@ -497,7 +553,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] == "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] == "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
@@ -513,7 +571,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] == "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] == "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
@@ -529,7 +589,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] == "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] == "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
@@ -545,7 +607,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] == "N" and tablero[i+1][j+1] != "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] == "N" and tablero[i+1][j+1] != "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
@@ -561,7 +625,9 @@ def contador_de_bestias(tablero, ancho_total, largo_total):
                         arr_der = int(tablero[i+1][j+1]) + 1
                         tablero[i+1][j+1] == arr_der
 
-                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and tablero[i+1][j-1] != "N" and tablero[i+1][j+1] == "N":
+                    elif tablero[i][j-1] != "N" and tablero[i][j+1] != "N" and tablero[i-1][j] != "N" and \
+                        tablero[i+1][j] != "N" and tablero[i-1][j-1] != "N" and tablero[i-1][j+1] != "N" and \
+                            tablero[i+1][j-1] != "N" and tablero[i+1][j+1] == "N":
                         izq = int(tablero[i][j-1]) + 1
                         tablero[i][j-1] = izq
                         der = int(tablero[i][j+1]) + 1
