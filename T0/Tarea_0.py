@@ -1,28 +1,18 @@
-from email.errors import NoBoundaryInMultipartDefect
 import parametros
 import tablero
 from math import ceil
 import funciones
 ###########################################################################   Menu de inicio
 simbolos = "qQwWeErRtTyYuUiIoOpPaAsSdDfFgGhHjJkKlLñÑzZxXcCvVbBnNmM,.-<{ +}'¿|"
-print(""" STAR ADVANCED! 
-
-Seleccione una opcion:
-[1] Crear partida
-[2] Cargar partida
-[3] Ver ranking
-[0] Salir""")
+print(""" STAR ADVANCED! \nSeleccione una opcion:\n[1] Crear partida \n[2] Cargar partida
+[3] Ver ranking\n[0] Salir""")
 tablero_juego_jugador = []
 tablero_juego_admin = []
 eleccion_inicio = input("Indique su opcion (0, 1, 2 o 3): ")
 x = eleccion_inicio.isdigit()
 while x == False or  int(eleccion_inicio) > 3:
-    print("Opcion no valida, por favor ingresar un numero valido")
-    print("""Seleccione una opcion:
-[1] Crear partida
-[2] Cargar partida
-[3] Ver ranking
-[0] Salir""")
+    print("""Opcion no valida, por favor ingresar un numero valido\nSeleccione una opcion:\n[1] Crear partida
+[2] Cargar partida\n[3] Ver ranking\n[0] Salir""")
     eleccion_inicio = input("Indique su opcion (0, 1, 2 o 3): ")
     y = eleccion_inicio.isdigit()
     if y == True:
@@ -34,8 +24,7 @@ continuacion_juego = "s"
 while termino_de_juego == 0 and continuacion_juego == "s":
     if int(eleccion_inicio) == 1:
         nueva_partida = input("Indiqueme su nombre: ")
-        print("""Antes de comenzar el juego, debemos armar el tablero,
-dime las medidas con las que deseas jugar: """)
+        print("""Antes de comenzar el juego, debemos armar el tablero,\ndime las medidas con las que deseas jugar: """)
         largo_tablero = input("largo: ")
         ancho_tablero = input("ancho: ")
         while largo_tablero in simbolos or ancho_tablero in simbolos or int(largo_tablero) > 15 \
@@ -53,50 +42,25 @@ dime las medidas con las que deseas jugar: """)
             for l in range(int(largo_tablero)):
                 tabla.append(0)
 ##########################################################  Menu de juego
-        cantidad_de_bestias = ceil(int(largo_tablero) * int(ancho_tablero) * float(parametros.PROB_BESTIA))
+        cantidad_de_bestias = ceil(int(largo_tablero) * int(ancho_tablero) * float(parametros.PROB_BESTIA))#
         tablero_juego_admin = funciones.bestias_en_tablero(cantidad_de_bestias, \
             tablero_juego_admin, int(ancho_tablero), int(largo_tablero))
         while continuacion_juego == "s":
             tablero.print_tablero(tablero_juego_jugador) 
-            print("""Seleccione una opcion:
-[1] Descubrir un sector
-[2] Guardar partida
+            print("""Seleccione una opcion:\n[1] Descubrir un sector\n[2] Guardar partida
 [3] Salir de la partida""")
             menu_juego = input("Indique su opcion (1, 2 o 3): ")
             letras = menu_juego.isdigit()
             while int(menu_juego) <= 3 and menu_juego not in simbolos:
                     if int(menu_juego) == 1:
-                        sector_fila = input("seleccione una fila (numeros): ")
-                        if sector_fila in simbolos or int(sector_fila) > int(ancho_tablero)-1:
-                            print("El valor ingresado no se encuentra dentro del tablero, \
-                                ingrese un valor que se encuentre en la tabla")
-                            sector_fila = input("seleccione una fila (numeros): ")
-                            while sector_fila in simbolos or int(sector_fila) > int(ancho_tablero)-1:
-                                print("El valor ingresado no se encuentra dentro del tablero, \
-                                    ingrese un valor que se encuentre en la tabla")
-                                sector_fila = input("seleccione una fila (numeros): ")
-                                if sector_fila <= int(ancho_tablero):
-                                    break
-                                break            
-                        sector_columna = input("seleccione una columna (letras): ")
-                        letra = funciones.convertidor_columna_en_numero(sector_columna)
-                        if letra > int(largo_tablero)-1:
-                            print("El valor ingresado no se encuentra dentro del tablero, \
-                                ingrese un valor que se encuentre en la tabla")
-                            sector_columna = input("seleccione una columna (letras): ")
-                            letra = funciones.convertidor_columna_en_numero(sector_columna)
-                            while letra > int(largo_tablero)-1:
-                                print("El valor ingresado no se encuentra dentro del tablero, \
-                                    ingrese un valor que se encuentre en la tabla")
-                                sector_columna = input("seleccione una columna (letras): ")
-                                if letra <= int(largo_tablero)-1:
-                                    break               
+                        sector_fila = funciones.valor_fila(ancho_tablero)
+                        sector_columna = funciones.valor_columna(largo_tablero)            
                         numero_bestias = funciones.surrounding(tablero_juego_admin, \
-                            int(letra), int(sector_fila))
-                        if tablero_juego_admin[int(sector_fila)][int(letra)] != "N":
-                            tablero_juego_jugador[int(sector_fila)][int(letra)] = numero_bestias
-                        elif tablero_juego_admin[int(sector_fila)][int(letra)] == "N":
-                            tablero_juego_jugador[int(sector_fila)][int(letra)] = "N"
+                            int(sector_columna), int(sector_fila))
+                        if tablero_juego_admin[int(sector_fila)][int(sector_columna)] != "N":
+                            tablero_juego_jugador[int(sector_fila)][int(sector_columna)] = numero_bestias
+                        elif tablero_juego_admin[int(sector_fila)][int(sector_columna)] == "N":
+                            tablero_juego_jugador[int(sector_fila)][int(sector_columna)] = "N"
                             tablero.print_tablero(tablero_juego_jugador)
                             print("Perdiste...")
                             termino_de_juego = 1
@@ -129,9 +93,9 @@ dime las medidas con las que deseas jugar: """)
                                     best += str(la_b)
                                 la_b += 1
                             an_b += 1
-                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
+                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas#
                             nueva_partida_guardada = "\n"
-                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
+                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)#
                             nueva_partida_guardada += ";"+(nueva_partida)
                             nueva_partida_guardada += ";"+(puntaje_jugador)
                             nueva_partida_guardada += ";" + ancho_tablero
@@ -177,9 +141,9 @@ dime las medidas con las que deseas jugar: """)
                                         best += str(la_b)
                                     la_b += 1
                                 an_b += 1
-                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
+                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas#
                             nueva_partida_guardada = "\n"
-                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
+                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)#
                             nueva_partida_guardada += ";"+(nueva_partida)
                             nueva_partida_guardada += ";"+(puntaje_jugador)
                             nueva_partida_guardada += ";" + ancho_tablero
@@ -206,18 +170,13 @@ dime las medidas con las que deseas jugar: """)
                             break
 
                     tablero.print_tablero(tablero_juego_jugador)
-                    print("""Seleccione una opcion:
-[1] Descubrir un sector
-[2] Guardar partida
+                    print("""Seleccione una opcion:\n[1] Descubrir un sector\n[2] Guardar partida
 [3] Salir de la partida""")
                     menu_juego = input("Indique su opcion (1, 2 o 3): ")
 
                     while letras == False or  int(menu_juego) > 3:
-                        print("Opcion no valida, por favor ingresar un numero valido")
-                        print("""Seleccione una opcion:
-[1] Descubrir un sector
-[2] Guardar partida
-[3] Salir de la partida""")
+                        print("""Opcion no valida, por favor ingresar un numero valido
+Seleccione una opcion:\n[1] Descubrir un sector\n[2] Guardar partida\n[3] Salir de la partida""")
                         menu_juego = input("Indique su opcion (1, 2 o 3): ")
                         k = menu_juego.isdigit()
                         if k == True:
@@ -246,15 +205,14 @@ dime las medidas con las que deseas jugar: """)
             partidas_ordenadas.append(partida)
         funciones.cargar_partida(partidas_ordenadas)
         eleccion_partida = input("""Con que partida deseas continuar: (ingrese el numero correspondiente) 
-Si desea iniciar una nueva partida ingrese el numero 0
-""")
+Si desea iniciar una nueva partida ingrese el numero 0\n""")
         if int(eleccion_partida) == 0:
             eleccion_inicio = 1
             termino_de_juego = 0
         elif int(eleccion_partida) > 0:
             print("Usted selecciono:")
             print("-----------------------------------")
-            print(partidas_ordenadas[int(eleccion_partida)-1][0],"=",partidas_ordenadas[int(eleccion_partida)-1][1],"puntos")
+            print(partidas_ordenadas[int(eleccion_partida)-1][0],"=",partidas_ordenadas[int(eleccion_partida)-1][1],"puntos")#
             eleccion_inicio = 1
             termino_de_juego = 0
             continuacion_juego = "f"
@@ -265,46 +223,20 @@ Si desea iniciar una nueva partida ingrese el numero 0
             print(tablero_juego_admin)
             while continuacion_juego == "f":
                 tablero.print_tablero(tablero_juego_jugador) 
-                print("""Seleccione una opcion:
-[1] Descubrir un sector
-[2] Guardar partida
-[3] Salir de la partida""")
+                print("""Seleccione una opcion:\n[1] Descubrir un sector\n[2] Guardar partida\n[3] Salir de la partida""")
                 menu_juego = input("Indique su opcion (1, 2 o 3): ")
                 letras = menu_juego.isdigit()
                 ancho_tablero = len(tablero_juego_jugador)
                 largo_tablero = len(tablero_juego_jugador[1])
                 while int(menu_juego) <= 3 and menu_juego not in simbolos:
                         if int(menu_juego) == 1:
-                            sector_fila = input("seleccione una fila (numeros): ")
-                            if sector_fila in simbolos or int(sector_fila) > int(ancho_tablero)-1:
-                                print("El valor ingresado no se encuentra dentro del tablero, \
-                                    ingrese un valor que se encuentre en la tabla")
-                                sector_fila = input("seleccione una fila (numeros): ")
-                                while sector_fila in simbolos or int(sector_fila) > int(ancho_tablero)-1:
-                                    print("El valor ingresado no se encuentra dentro del tablero, \
-                                        ingrese un valor que se encuentre en la tabla")
-                                    sector_fila = input("seleccione una fila (numeros): ")
-                                    if sector_fila <= int(ancho_tablero):
-                                        break
-                                    break       
-                            sector_columna = input("seleccione una columna (letras): ")
-                            letra = funciones.convertidor_columna_en_numero(sector_columna)
-                            if letra > int(largo_tablero)-1:
-                                print("El valor ingresado no se encuentra dentro del tablero, \
-                                    ingrese un valor que se encuentre en la tabla")
-                                sector_columna = input("seleccione una columna (letras): ")
-                                letra = funciones.convertidor_columna_en_numero(sector_columna)
-                                while letra > int(largo_tablero)-1:
-                                    print("El valor ingresado no se encuentra dentro del tablero, \
-                                        ingrese un valor que se encuentre en la tabla")
-                                    sector_columna = input("seleccione una columna (letras): ")
-                                    if letra <= int(largo_tablero)-1:
-                                        break               
-                            numero_bestias = funciones.surrounding(tablero_juego_admin, int(letra), int(sector_fila))
-                            if tablero_juego_admin[int(sector_fila)][int(letra)] != "N":
-                                tablero_juego_jugador[int(sector_fila)][int(letra)] = numero_bestias
-                            elif tablero_juego_admin[int(sector_fila)][int(letra)] == "N":
-                                tablero_juego_jugador[int(sector_fila)][int(letra)] = "N"
+                            sector_fila = funciones.valor_fila(ancho_tablero)
+                            sector_columna = funciones.valor_columna(largo_tablero)              
+                            numero_bestias = funciones.surrounding(tablero_juego_admin, int(sector_columna), int(sector_fila))#
+                            if tablero_juego_admin[int(sector_fila)][int(sector_columna)] != "N":
+                                tablero_juego_jugador[int(sector_fila)][int(sector_columna)] = numero_bestias
+                            elif tablero_juego_admin[int(sector_fila)][int(sector_columna)] == "N":
+                                tablero_juego_jugador[int(sector_fila)][int(sector_columna)] = "N"
                                 tablero.print_tablero(tablero_juego_jugador)
                                 print("Perdiste...")
                                 termino_de_juego = 1
@@ -339,9 +271,9 @@ Si desea iniciar una nueva partida ingrese el numero 0
                                         best += str(la_b)
                                     la_b += 1
                                 an_b += 1
-                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
+                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas#
                             nueva_partida_guardada = "\n"
-                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
+                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)#
                             nueva_partida_guardada += ";"+(nueva_partida)
                             nueva_partida_guardada += ";"+(puntaje_jugador)
                             nueva_partida_guardada += ";" + ancho_tablero
@@ -358,7 +290,6 @@ Si desea iniciar una nueva partida ingrese el numero 0
                             with open("partidas/partidas.txt", "w") as file:
                                 file.write(lista_partidas_str)
                             print("Partida guardada")
-
                         elif int(menu_juego) == 3:
                             guardar = input("Desea guardar la partida antes de salir?: (Si o No) ")
                             if guardar == "si" or guardar == "Si":
@@ -388,9 +319,9 @@ Si desea iniciar una nueva partida ingrese el numero 0
                                             best += str(la_b)
                                         la_b += 1
                                     an_b += 1
-                                casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
+                                casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas#
                                 nueva_partida_guardada = "\n"
-                                puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
+                                puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)#
                                 nueva_partida_guardada += ";"+(nueva_partida)
                                 nueva_partida_guardada += ";"+(puntaje_jugador)
                                 nueva_partida_guardada += ";" + ancho_tablero
@@ -414,17 +345,11 @@ Si desea iniciar una nueva partida ingrese el numero 0
                                 termino_de_juego = 1
                                 break
                         tablero.print_tablero(tablero_juego_jugador)
-                        print("""Seleccione una opcion:
-[1] Descubrir un sector
-[2] Guardar partida
-[3] Salir de la partida""")
+                        print("""Seleccione una opcion:\n[1] Descubrir un sector\n[2] Guardar partida\n[3] Salir de la partida""")
                         menu_juego = input("Indique su opcion (1, 2 o 3): ")
                         while letras == False or  int(menu_juego) > 3:
-                            print("Opcion no valida, por favor ingresar un numero valido")
-                            print("""Seleccione una opcion:
-[1] Descubrir un sector
-[2] Guardar partida
-[3] Salir de la partida""")
+                            print("""Opcion no valida, por favor ingresar un numero valido
+Seleccione una opcion:\n[1] Descubrir un sector\n[2] Guardar partida\n[3] Salir de la partida""")
                             menu_juego = input("Indique su opcion (1, 2 o 3): ")
                             k = menu_juego.isdigit()
                             if k == True:
@@ -444,36 +369,21 @@ Si desea iniciar una nueva partida ingrese el numero 0
             puntos.append(puntaje)
             puntajes_ordenadas.append(puntos)
         funciones.cargar_ranking(puntajes_ordenadas)    
-        volver = input("""
-[0] Volver atras: 
-[1] Salir:
-""")
+        volver = input("""\n[0] Volver atras: \n[1] Salir:\n""")
         f = volver.isdigit()
         while f == False or int(volver) > 1:
             print("Por favor ingresar un numero valido")
-            volver = input("""
-[0] Volver atras: 
-[1] Salir:
-""")
+            volver = input("""\n[0] Volver atras: \n[1] Salir:\n""")
         if int(volver) == 0:
-            print(""" STAR ADVANCED! 
-
-Seleccione una opcion:
-[1] Crear partida
-[2] Cargar partida
-[3] Ver ranking
-[0] Salir""")
+            print(""" STAR ADVANCED! \nSeleccione una opcion:\n[1] Crear partida
+[2] Cargar partida\n[3] Ver ranking\n[0] Salir""")
             tablero_juego_jugador = []
             tablero_juego_admin = []
             eleccion_inicio = input("Indique su opcion (0, 1, 2 o 3): ")
             x = eleccion_inicio.isdigit()
             while x == False or  int(eleccion_inicio) > 3:
-                print("Opcion no valida, por favor ingresar un numero valido")
-                print("""Seleccione una opcion:
-[1] Crear partida
-[2] Cargar partida
-[3] Ver ranking
-[0] Salir""")
+                print("""Opcion no valida, por favor ingresar un numero valido\nSeleccione una opcion:
+[1] Crear partida\n[2] Cargar partida\n[3] Ver ranking\n[0] Salir""")
                 eleccion_inicio = input("Indique su opcion (0, 1, 2 o 3): ")
                 y = eleccion_inicio.isdigit()
                 if y == True:

@@ -1,13 +1,31 @@
-from ast import Num
-from fileinput import filename
 import random
-from tkinter import E
 import tablero
+import funciones_2
 def posicion(tablero1, tablero2, fila, columna):
     #intercambia el numero espacio vacio del tablero 1 por el numero respectivo del tablero 2
     x = str(tablero2[fila][columna])
     tablero1[fila][columna] = x
     return tablero1
+
+def valor_fila(ancho_tablero):
+    x = input("seleccione una fila (numeros): ")
+    if x in "qQwWeErRtTyYuUiIoOpPaAsSdDfFgGhHjJkKlLñÑzZxXcCvVbBnNmM,.-<{ +}'¿|" \
+        or int(x) > int(ancho_tablero)-1:
+        print("El valor ingresado no se encuentra dentro del tablero, ingrese un valor que se encuentre en la tabla")
+        return valor_fila(ancho_tablero)
+    if int(x) <= int(ancho_tablero):
+        return x
+
+def valor_columna(largo_tablero):
+    sector_columna = input("seleccione una columna (letras): ")
+    x = funciones_2.convertidor_columna_en_numero(sector_columna)
+    if x == "valor no valido" \
+        or int(x) > int(largo_tablero)-1:
+        print("El valor ingresado no se encuentra dentro del tablero, ingrese un valor que se encuentre en la tabla")
+        return valor_columna(largo_tablero)
+    if int(x) <= int(largo_tablero)-1:
+        return x
+
 
 def bestias_en_tablero(cantidad_bestias, tablero1, ancho, largo):
     c = 0
@@ -115,7 +133,6 @@ def cargar_ranking(lista):
     c = 1
     top = 0
     ordenada = sorted(lista, key=lambda ordenada:int(ordenada[1]), reverse=True)
-    print(ordenada)
     for i in ordenada:
         nombre = i[0]
         puntaje = i[1]
