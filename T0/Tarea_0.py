@@ -1,6 +1,5 @@
 import parametros
 import tablero
-import random
 from math import ceil
 import funciones
 ###########################################################################   Menu de inicio
@@ -207,8 +206,8 @@ Si desea iniciar una nueva partida ingrese el numero 0
             continuacion_juego = "f"
             eleccion_inicio = 1
             nueva_partida = partidas_ordenadas[int(eleccion_inicio)+1][0]
-            tablero_juego_admin = eval(partidas_ordenadas[int(eleccion_inicio)][2])
-            tablero_juego_jugador = eval(partidas_ordenadas[int(eleccion_inicio)+1][3])
+            tablero_juego_admin = partidas_ordenadas[int(eleccion_inicio)][2] ###debo hacerlo una lista
+            tablero_juego_jugador = partidas_ordenadas[int(eleccion_inicio)+1][3]  ###dedo hacerlo una lista
             while continuacion_juego == "f":
                 tablero.print_tablero(tablero_juego_jugador) 
                 print("""Seleccione una opcion:
@@ -331,16 +330,18 @@ Si desea iniciar una nueva partida ingrese el numero 0
                                     break           
     elif int(eleccion_inicio) == 3:
         print("Cargando ranking...")
-        with open("partidas/puntajes.txt", "r") as file:
+        with open("partidas/partidas.txt", "r") as file:
             lista_puntajes = file.readlines()
-            file.close()
-            puntajes = []
-        for linea in lista_puntajes:
-            puntajes.append(linea.strip().split("="))
-        x = 1 
-        for juego in puntajes[:10]:
-            print(x,")",juego[0],"=",juego[1])
-            x += 1
+        puntajes_ordenadas = []
+        for i in lista_puntajes:
+            j = i.split(";")
+            nombre = j[1]
+            puntaje = j[2]
+            puntos = []
+            puntos.append(nombre)
+            puntos.append(puntaje)
+            puntajes_ordenadas.append(puntos)
+        funciones.cargar_ranking(puntajes_ordenadas)    
         volver = input("""
 [0] Volver atras: 
 [1] Salir:
@@ -380,8 +381,8 @@ Seleccione una opcion:
                 termino_de_juego = 0
         elif int(volver) == 1:
             termino_de_juego = 1
+            print("Hasta la proxima...")
     elif int(eleccion_inicio) == 0:                             
         print("Hasta la proxima...")
         termino_de_juego = 1
         break
-
