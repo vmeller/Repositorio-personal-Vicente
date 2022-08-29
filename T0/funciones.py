@@ -1,4 +1,7 @@
+from ast import Num
+from fileinput import filename
 import random
+from tkinter import E
 import tablero
 def posicion(tablero1, tablero2, fila, columna):
     #intercambia el numero espacio vacio del tablero 1 por el numero respectivo del tablero 2
@@ -74,31 +77,103 @@ def convertidor_columna_en_numero(letra):
 
 def surrounding(tablero_admin, x, y):
     #asiga un numero en la posicion [x][y] dependiendo de cuantas bestias tiene en las casillas adyacentes
-    return [tablero_admin[r][c] for r in range(y-1 if y > 0 else y, y + 2 if y < int(len(tablero_admin))-1 else y + 1)\
-     for c in range(x-1 if x > 0 else x, x + 2 if x < int(len(tablero_admin[0]))-1 else x + 1)].count('N')
+    return [tablero_admin[r][c] for r in range(y-1 if y > 0 else y, y + 2 if y < len(tablero_admin)-1 else y + 1)\
+     for c in range(x-1 if x > 0 else x, x + 2 if x < len(tablero_admin[0])-1 else x + 1)].count('N')
 
 def cargar_partida(lista):
-    c = 1
+    g = 1
     for i in lista:
         nombre = i[0]
         puntaje = i[1]
-        tablero_jugador = (i[3])    #debo hacerlo una lista
+        ancho_tablero = i[2]
+        largo_tablero = i[3]
+        numeros = i[4]
+        tablero_jugador = []
         # me entrega la lista de partidas guardadas de manera ordenada
-        print(c,")",nombre,"=",puntaje,"puntos")
+        for j in range(int(ancho_tablero)):
+            listas = []
+            for k in range(int(largo_tablero)):
+                listas.append(" ")
+            tablero_jugador.append(listas)
+        a = 0
+        b = 1
+        c = 2
+        for s in range(int(len(numeros)/3)):
+            num = int(numeros[a])
+            linea = int(numeros[b])
+            columna = int(numeros[c])
+            a += 3
+            b += 3
+            c += 3
+            tablero_jugador[linea][columna] = num
+        print(g,")",nombre,"=",puntaje,"puntos")
         tablero.print_tablero(tablero_jugador)
-        c += 1
+        g += 1
     return
 
 def cargar_ranking(lista):
     c = 1
-    
-    print(lista)
-    for i in lista:
+    top = 0
+    ordenada = sorted(lista, key=lambda ordenada:int(ordenada[1]), reverse=True)
+    print(ordenada)
+    for i in ordenada:
         nombre = i[0]
         puntaje = i[1]
         # me entrega la lista de puntajes guardadas de manera ordenada
         print(c,")",nombre,"=",puntaje,"puntos")
         c += 1
+        top += 1
+        if top == 10:
+            break
     return
 
+def creador_tablero_admin(lista):
+    for i in lista:
+        ancho_tablero = i[2]
+        largo_tablero = i[3]
+        bestias = i[5]
+        tablero_admin = []
+        # me va a crear el tablero con las ubicaciones de las bestias
+        for j in range(int(ancho_tablero)):
+            listas = []
+            for k in range(int(largo_tablero)):
+                listas.append(" ")
+            tablero_admin.append(listas)
+        d = 0
+        e = 1
+        f = 2
+        for r in range(int(len(bestias)/3)):
+            bes = bestias[d]
+            linea_b = int(bestias[e])
+            columna_b = int(bestias[f])
+            d += 3
+            e += 3
+            f += 3
+            tablero_admin[linea_b][columna_b] = bes
+    return tablero_admin
 
+def creador_tablero_jugador(lista):
+    for i in lista:
+        ancho_tablero = i[2]
+        largo_tablero = i[3]
+        numeros = i[4]
+        tablero_jugador = []
+        # me entrega la lista de partidas guardadas de manera ordenada
+        for j in range(int(ancho_tablero)):
+            listas = []
+            for k in range(int(largo_tablero)):
+                listas.append(" ")
+            tablero_jugador.append(listas)
+        a = 0
+        b = 1
+        c = 2
+        for s in range(int(len(numeros)/3)):
+            num = int(numeros[a])
+            linea = int(numeros[b])
+            columna = int(numeros[c])
+            a += 3
+            b += 3
+            c += 3
+            tablero_jugador[linea][columna] = num
+    return tablero_jugador
+        

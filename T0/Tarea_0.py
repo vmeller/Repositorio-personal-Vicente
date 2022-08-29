@@ -1,3 +1,4 @@
+from email.errors import NoBoundaryInMultipartDefect
 import parametros
 import tablero
 from math import ceil
@@ -99,20 +100,44 @@ dime las medidas con las que deseas jugar: """)
                             tablero.print_tablero(tablero_juego_jugador)
                             print("Perdiste...")
                             termino_de_juego = 1
+                            continuacion_juego = "f"
                             break            
                     elif int(menu_juego) == 2:
+                        an = 0
+                        an_b = 0
+                        num = ""
+                        best = ""
                         casillas_no_descubiertas = 0
                         for linea in tablero_juego_jugador:
+                            la = 0
                             for lugar in linea: 
+                                digito = str(lugar).isdigit()
                                 if lugar == " ":
                                     casillas_no_descubiertas += 1
-                        casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
-                        nueva_partida_guardada = "\n"
-                        puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
-                        nueva_partida_guardada += ";"+(nueva_partida)
-                        nueva_partida_guardada += ";"+(puntaje_jugador)
-                        nueva_partida_guardada += ";"+str(tablero_juego_admin)
-                        nueva_partida_guardada += ";"+str(tablero_juego_jugador)                                
+                                if digito == True:
+                                    num += str(lugar)
+                                    num += str(an)
+                                    num += str(la)
+                                la += 1
+                            an += 1
+                        for linea_b in tablero_juego_admin:
+                            la_b = 0
+                            for lugar_b in linea_b: 
+                                if lugar_b == "N":
+                                    best += lugar_b
+                                    best += str(an_b)
+                                    best += str(la_b)
+                                la_b += 1
+                            an_b += 1
+                            casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
+                            nueva_partida_guardada = "\n"
+                            puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
+                            nueva_partida_guardada += ";"+(nueva_partida)
+                            nueva_partida_guardada += ";"+(puntaje_jugador)
+                            nueva_partida_guardada += ";" + ancho_tablero
+                            nueva_partida_guardada += ";" + largo_tablero 
+                            nueva_partida_guardada += ";"+ num
+                            nueva_partida_guardada += ";"+ best                            
                         with open("partidas/partidas.txt", "r") as file:
                             lista_partidas = file.readlines()
                             file.close()
@@ -124,20 +149,43 @@ dime las medidas con las que deseas jugar: """)
                             file.write(lista_partidas_str)
                         print("Partida guardada")
                     elif int(menu_juego) == 3:
+                        an = 0
+                        an_b = 0
+                        num = ""
+                        best = ""
                         guardar = input("Desea guardar la partida antes de salir?: (Si o No) ")
                         if guardar == "si" or guardar == "Si":
                             casillas_no_descubiertas = 0
                             for linea in tablero_juego_jugador:
+                                la = 0
                                 for lugar in linea: 
+                                    digito = str(lugar).isdigit()
                                     if lugar == " ":
                                         casillas_no_descubiertas += 1
+                                    if digito == True:
+                                        num += str(lugar)
+                                        num += str(an)
+                                        num += str(la)
+                                    la += 1
+                                an += 1
+                            for linea_b in tablero_juego_admin:
+                                la_b = 0
+                                for lugar_b in linea_b: 
+                                    if lugar_b == "N":
+                                        best += lugar_b
+                                        best += str(an_b)
+                                        best += str(la_b)
+                                    la_b += 1
+                                an_b += 1
                             casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
                             nueva_partida_guardada = "\n"
                             puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
                             nueva_partida_guardada += ";"+(nueva_partida)
                             nueva_partida_guardada += ";"+(puntaje_jugador)
-                            nueva_partida_guardada += ";"+str(tablero_juego_admin)
-                            nueva_partida_guardada += ";"+str(tablero_juego_jugador)                
+                            nueva_partida_guardada += ";" + ancho_tablero
+                            nueva_partida_guardada += ";" + largo_tablero 
+                            nueva_partida_guardada += ";"+ num
+                            nueva_partida_guardada += ";"+ best                
                             with open("partidas/partidas.txt", "r") as file:
                                 lista_partidas = file.readlines()
                                 file.close()
@@ -149,10 +197,12 @@ dime las medidas con las que deseas jugar: """)
                                 file.write(lista_partidas_str)
                             print("Partida guardada")
                             termino_de_juego = 1
+                            continuacion_juego = "f"
                             break
                         elif guardar == "no" or guardar == "No":
                             print("Cerrando el juego!")
                             termino_de_juego = 1
+                            continuacion_juego = "f"
                             break
 
                     tablero.print_tablero(tablero_juego_jugador)
@@ -182,13 +232,17 @@ dime las medidas con las que deseas jugar: """)
             j = i.split(";")
             nombre = j[1]
             puntaje = j[2]
-            tablero_juego_admin_c = j[3]
-            tablero_juego_jugador_c =  j[4]
+            ancho_tablero_c = j[3]
+            largo_tablero_c =  j[4]
+            numeros_c = j[5]
+            bestias_c = j[6]
             partida = []
             partida.append(nombre)
             partida.append(puntaje)
-            partida.append(tablero_juego_admin_c)
-            partida.append(tablero_juego_jugador_c)
+            partida.append(ancho_tablero_c)
+            partida.append(largo_tablero_c)
+            partida.append(numeros_c)
+            partida.append(bestias_c)
             partidas_ordenadas.append(partida)
         funciones.cargar_partida(partidas_ordenadas)
         eleccion_partida = input("""Con que partida deseas continuar: (ingrese el numero correspondiente) 
@@ -200,14 +254,15 @@ Si desea iniciar una nueva partida ingrese el numero 0
         elif int(eleccion_partida) > 0:
             print("Usted selecciono:")
             print("-----------------------------------")
-            print(partidas_ordenadas[int(eleccion_inicio)][0],"=",partidas_ordenadas[int(eleccion_inicio)][1],"puntos")
+            print(partidas_ordenadas[int(eleccion_partida)-1][0],"=",partidas_ordenadas[int(eleccion_partida)-1][1],"puntos")
             eleccion_inicio = 1
             termino_de_juego = 0
             continuacion_juego = "f"
             eleccion_inicio = 1
-            nueva_partida = partidas_ordenadas[int(eleccion_inicio)+1][0]
-            tablero_juego_admin = partidas_ordenadas[int(eleccion_inicio)][2] ###debo hacerlo una lista
-            tablero_juego_jugador = partidas_ordenadas[int(eleccion_inicio)+1][3]  ###dedo hacerlo una lista
+            nueva_partida = partidas_ordenadas[int(eleccion_partida)-1][0]
+            tablero_juego_admin = funciones.creador_tablero_admin(partidas_ordenadas) 
+            tablero_juego_jugador = funciones.creador_tablero_jugador(partidas_ordenadas)
+            print(tablero_juego_admin)
             while continuacion_juego == "f":
                 tablero.print_tablero(tablero_juego_jugador) 
                 print("""Seleccione una opcion:
@@ -253,22 +308,46 @@ Si desea iniciar una nueva partida ingrese el numero 0
                                 tablero.print_tablero(tablero_juego_jugador)
                                 print("Perdiste...")
                                 termino_de_juego = 1
+                                continuacion_juego = "k"
                                 break            
                         elif int(menu_juego) == 2:
                             cantidad_de_bestias = ceil(int(largo_tablero) * int(ancho_tablero) * \
                                 float(parametros.PROB_BESTIA))
+                            an = 0
+                            an_b = 0
+                            num = ""
+                            best = ""
                             casillas_no_descubiertas = 0
                             for linea in tablero_juego_jugador:
+                                la = 0
                                 for lugar in linea: 
+                                    digito = str(lugar).isdigit()
                                     if lugar == " ":
                                         casillas_no_descubiertas += 1
+                                    if digito == True:
+                                        num += str(lugar)
+                                        num += str(an)
+                                        num += str(la)
+                                    la += 1
+                                an += 1
+                            for linea_b in tablero_juego_admin:
+                                la_b = 0
+                                for lugar_b in linea_b: 
+                                    if lugar_b == "N":
+                                        best += lugar_b
+                                        best += str(an_b)
+                                        best += str(la_b)
+                                    la_b += 1
+                                an_b += 1
                             casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
                             nueva_partida_guardada = "\n"
                             puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
                             nueva_partida_guardada += ";"+(nueva_partida)
                             nueva_partida_guardada += ";"+(puntaje_jugador)
-                            nueva_partida_guardada += ";"+str(tablero_juego_admin)
-                            nueva_partida_guardada += ";"+str(tablero_juego_jugador)  
+                            nueva_partida_guardada += ";" + ancho_tablero
+                            nueva_partida_guardada += ";" + largo_tablero 
+                            nueva_partida_guardada += ";"+ num
+                            nueva_partida_guardada += ";"+ best  
                             with open("partidas/partidas.txt", "r") as file:
                                 lista_partidas = file.readlines()
                                 file.close()
@@ -283,18 +362,41 @@ Si desea iniciar una nueva partida ingrese el numero 0
                         elif int(menu_juego) == 3:
                             guardar = input("Desea guardar la partida antes de salir?: (Si o No) ")
                             if guardar == "si" or guardar == "Si":
+                                an = 0
+                                an_b = 0
+                                num = ""
+                                best = ""
                                 casillas_no_descubiertas = 0
                                 for linea in tablero_juego_jugador:
+                                    la = 0
                                     for lugar in linea: 
+                                        digito = str(lugar).isdigit()
                                         if lugar == " ":
                                             casillas_no_descubiertas += 1
+                                        if digito == True:
+                                            num += str(lugar)
+                                            num += str(an)
+                                            num += str(la)
+                                        la += 1
+                                    an += 1
+                                for linea_b in tablero_juego_admin:
+                                    la_b = 0
+                                    for lugar_b in linea_b: 
+                                        if lugar_b == "N":
+                                            best += lugar_b
+                                            best += str(an_b)
+                                            best += str(la_b)
+                                        la_b += 1
+                                    an_b += 1
                                 casillas_descubiertas = (int(largo_tablero) * int(ancho_tablero)) - casillas_no_descubiertas
                                 nueva_partida_guardada = "\n"
                                 puntaje_jugador = str(cantidad_de_bestias * casillas_descubiertas * parametros.POND_PUNT)
                                 nueva_partida_guardada += ";"+(nueva_partida)
                                 nueva_partida_guardada += ";"+(puntaje_jugador)
-                                nueva_partida_guardada += ";"+str(tablero_juego_admin)
-                                nueva_partida_guardada += ";"+str(tablero_juego_jugador)                
+                                nueva_partida_guardada += ";" + ancho_tablero
+                                nueva_partida_guardada += ";" + largo_tablero 
+                                nueva_partida_guardada += ";"+ num
+                                nueva_partida_guardada += ";"+ best                
                                 with open("partidas/partidas.txt", "r") as file:
                                     lista_partidas = file.readlines()
                                     file.close()
@@ -327,7 +429,7 @@ Si desea iniciar una nueva partida ingrese el numero 0
                             k = menu_juego.isdigit()
                             if k == True:
                                 if int(menu_juego) <= 3:
-                                    break           
+                                    break      
     elif int(eleccion_inicio) == 3:
         print("Cargando ranking...")
         with open("partidas/partidas.txt", "r") as file:
